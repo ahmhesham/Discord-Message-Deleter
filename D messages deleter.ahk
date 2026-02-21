@@ -1,46 +1,53 @@
-; Only run hotkeys when Discord is active
-#IfWinActive ahk_exe Discord.exe
+#Requires AutoHotkey v2.0
 
 toggle := false
 
-; Ctrl+D starts the loop
-^d::
-toggle := true
-TrayTip, Discord Macro, Loop started!, 1
-while (toggle) {
-    ; Stop if Discord is not active
-    if !WinActive("ahk_exe Discord.exe") {
-        TrayTip, Discord Macro, Loop stopped (Discord not active)!, 1
-        break
+; Only run hotkeys when Discord is active
+#HotIf WinActive("ahk_exe Discord.exe")
+
+; Ctrl + D starts the loop
+^d:: {
+    global toggle
+    toggle := true
+    TrayTip("Discord Macro", "Loop started!", 1)
+
+    while toggle {
+        ; Stop if Discord is not active
+        if !WinActive("ahk_exe Discord.exe") {
+            TrayTip("Discord Macro", "Loop stopped (Discord not active)!", 1)
+            break
+        }
+
+        Send("{Space}")
+        Sleep(100)
+        Send("{BS}")
+        Send("{Up}")
+        Sleep(200)
+        Send("^a")
+        Sleep(100)
+        Send("{BS}")
+        Sleep(200)
+        Send("{Enter}")
+        Sleep(100)
+        Send("{Enter}")
+        Sleep(1000) ; fixed delay
     }
 
-    send, {Space}
-    sleep, 100
-    send, {BS}
-    send, {Up}
-    sleep, 200
-    send, ^a
-    sleep, 100
-    send, {BS}
-    sleep, 200
-    send, {Enter}
-    sleep, 100
-    send, {Enter}
-    sleep, 1000   ; fixed delay
+    TrayTip("Discord Macro", "Loop stopped!", 1)
 }
-TrayTip, Discord Macro, Loop stopped!, 1
-return
 
-; Ctrl+S stops the loop
-^s::
-toggle := false
-TrayTip, Discord Macro, Loop stopped!, 1
-return
+; Ctrl + S stops the loop
+^s:: {
+    global toggle
+    toggle := false
+    TrayTip("Discord Macro", "Loop stopped!", 1)
+}
 
 ; Emergency stop with Esc
-Esc::
-toggle := false
-TrayTip, Discord Macro, Emergency stop!, 1
-return
+Esc:: {
+    global toggle
+    toggle := false
+    TrayTip("Discord Macro", "Emergency stop!", 1)
+}
 
-#IfWinActive  ; End of Discord-only scope
+#HotIf
