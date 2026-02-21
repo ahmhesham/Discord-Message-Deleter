@@ -2,8 +2,8 @@ Deletes messages in a chat using hotkeys.
 
 ## Hotkeys
 
-- **Ctrl + D** — start deleting  
-- **Esc** or **Ctrl + S** — stop deleting
+- **Ctrl + D**  start deleting  
+- **Esc** or **Ctrl + S**  stop deleting
 
 ## Requirements
 
